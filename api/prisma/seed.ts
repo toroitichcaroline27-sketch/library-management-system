@@ -25,13 +25,13 @@ async function main() {
     data: { name: 'Technology', slug: 'technology' },
   });
 
-  // 2. Create Users (Patron & Librarian roles)
+  // 2. Create Users (Including required 'name' field)
   await prisma.user.create({
-    data: { email: 'librarian@ndovulibrary.com', role: 'LIBRARIAN' },
+    data: { name: 'Head Librarian', email: 'librarian@ndovulibrary.com', role: 'LIBRARIAN' },
   });
 
   await prisma.user.create({
-    data: { email: 'patron@ndovulibrary.com', role: 'PATRON' },
+    data: { name: 'Library Patron', email: 'patron@ndovulibrary.com', role: 'PATRON' },
   });
 
   // 3. Create Books (At least 15 books distributed across genres)
