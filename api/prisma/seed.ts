@@ -1,4 +1,5 @@
 import { PrismaClient, Role } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -14,9 +15,10 @@ const genres = [
   { name: 'Technology', slug: 'technology' },
 ];
 
+// Dev-only passwords for testing in Postman. Override via .env if you like.
 const users = [
-  { name: 'Head Librarian', email: 'librarian@ndovulibrary.com', role: Role.LIBRARIAN },
-  { name: 'Library Patron', email: 'patron@ndovulibrary.com', role: Role.PATRON },
+  { name: 'Head Librarian', email: 'librarian@ndovulibrary.com', role: Role.LIBRARIAN, password: process.env.SEED_LIBRARIAN_PASSWORD ?? 'Librarian123!' },
+  { name: 'Library Patron', email: 'patron@ndovulibrary.com', role: Role.PATRON, password: process.env.SEED_PATRON_PASSWORD ?? 'Patron123!' },
 ];
 
 // `genre` is the genre's slug. The seed turns it into a genreId below.
@@ -62,10 +64,11 @@ async function main() {
 
   // 2. Users.
   for (const u of users) {
+    const hash = await bcrypt.hash(u.password, 10);
     await prisma.user.upsert({
       where: { email: u.email },
-      update: { name: u.name, role: u.role },
-      create: u,
+      update: { name: u.name, role: u.role, password: hash },
+      create: { name: u.name, email: u.email, role: u.role, password: hash },
     });
   }
 
