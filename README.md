@@ -115,3 +115,37 @@ Every `Book` stores only a `genreId`, a number that points to one row in the `Ge
 - **Slugs for genres.** A `slug` like `wildlife-safari` is safe to put in a URL, so a genre page can later be reached at a clean address without worrying about spaces or `&`.
 - **Timestamps.** `createdAt` and `updatedAt` record when each row was added and last changed, which helps with debugging and later with sorting and audits.
 - **Users are separate from books for now.** The two tables do not link yet. They will be connected when borrowing and reviews are added, so the schema grows one step at a time.
+
+## Week 2: Catalog CRUD and Authentication
+
+### Setup
+
+1. `cd api && npm install`
+2. In `api/.env` set `DATABASE_URL` and `JWT_SECRET`
+3. `npx prisma migrate dev` then `npx prisma db seed`
+4. `npm run start:dev` (API on http://localhost:3000)
+
+### Endpoints
+
+| Method              | Route                                | Access                    |
+| ------------------- | ------------------------------------ | ------------------------- |
+| POST                | /auth/register                       | Public (creates a PATRON) |
+| POST                | /auth/login                          | Public (returns a JWT)    |
+| GET                 | /books?genreId=&search=&page=&limit= | Public                    |
+| GET                 | /books/:id                           | Public                    |
+| POST, PATCH, DELETE | /books, /books/:id                   | LIBRARIAN only            |
+| GET                 | /genres, /genres/:id                 | Public                    |
+| POST, PATCH, DELETE | /genres, /genres/:id                 | LIBRARIAN only            |
+| GET                 | /users/profile                       | Any logged-in user        |
+
+### Test accounts (seeded, development only)
+
+- Librarian: librarian@ndovulibrary.com / Librarian123!
+- Patron: patron@ndovulibrary.com / Patron123!
+
+### Design notes
+
+- DTOs with class-validator and a global ValidationPipe (`whitelist: true`)
+- Passwords hashed with bcrypt; JWT issued at login, verified by JwtStrategy
+- RolesGuard + `@Roles()` decorator restrict write routes to librarians
+- Postman collection: `docs/postman_collection.json`git add README.md 
