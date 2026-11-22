@@ -148,7 +148,6 @@ Every `Book` stores only a `genreId`, a number that points to one row in the `Ge
 - DTOs with class-validator and a global ValidationPipe (`whitelist: true`)
 - Passwords hashed with bcrypt; JWT issued at login, verified by JwtStrategy
 - RolesGuard + `@Roles()` decorator restrict write routes to librarians
-- Postman collection: `docs/postman_collection.json`git add README.md
 
 ### Week 2 file map
 
@@ -164,4 +163,4 @@ Every `Book` stores only a `genreId`, a number that points to one row in the `Ge
 - Books: `api/src/books/` (`books.controller.ts`, `books.service.ts`, `dto/create-book.dto.ts`)
 - Auth: `api/src/auth/` (`auth.controller.ts`, `auth.service.ts`, `auth.module.ts`, `jwt.strategy.ts`, `jwt-auth.guard.ts`, `roles.decorator.ts`, `roles.guard.ts`)
 - Global pipe and CORS: `api/src/main.ts`
-- Postman collection: `docs/postman_collection.json`
+-
