@@ -6,7 +6,4 @@ node_modules
 
 /dist
 tsconfig.build.tsbuildinfo
-
-package-lock.json
-
 package-lock.json
